@@ -7,18 +7,22 @@ import (
 type racer interface {
 	Start()
 	RegisterHost(stadium *Stadium)
+	Announce()
 }
 
 type Stadium struct {
-	racers []racer
-	rank   Counter
-	wg     sync.WaitGroup
+	racers   []racer
+	finished []racer
+
+	rank Counter
+	wg   sync.WaitGroup
 }
 
 func NewStadium() Stadium {
 	return Stadium{
-		racers: []racer{},
-		rank:   Counter{},
+		racers:   []racer{},
+		finished: []racer{},
+		rank:     Counter{},
 	}
 }
 
@@ -27,9 +31,16 @@ func (host *Stadium) AddRacer(racer racer) {
 	host.racers = append(host.racers, racer)
 }
 
-func (host *Stadium) GetRank() int {
+func (host *Stadium) GetRank(racer racer) int {
 	host.wg.Done()
+	host.finished = append(host.finished, racer)
 	return host.rank.GetRank()
+}
+
+func (host *Stadium) Announce() {
+	for _, racer := range host.finished {
+		racer.Announce()
+	}
 }
 
 func (host *Stadium) StartRace() {
@@ -38,4 +49,5 @@ func (host *Stadium) StartRace() {
 		go racer.Start()
 	}
 	host.wg.Wait()
+	host.Announce()
 }

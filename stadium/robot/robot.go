@@ -28,6 +28,10 @@ func (robot *Racer) RegisterHost(stadium *stadium.Stadium) {
 	robot.raceHost = stadium
 }
 
+func (robot *Racer) Announce() {
+	log.Printf("[%s] Finished with Rank %d\n", robot.racerName, robot.rank)
+}
+
 func (robot *Racer) move() {
 	robot.position = utils.Point2d{
 		X: robot.position.X + robot.direction.GetHorizontalModifier(),
@@ -76,7 +80,7 @@ func (robot *Racer) Start() {
 		time.Sleep(robot.delay)
 	}
 	log.Printf("[%s] Completed Run!\n", robot.racerName)
-	robot.rank = robot.raceHost.GetRank()
+	robot.rank = robot.raceHost.GetRank(robot)
 }
 
 func NewRobot(name string, delay time.Duration) Racer {

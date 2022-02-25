@@ -17,8 +17,8 @@ func (c *Counter) Add(x int) {
 
 func (c *Counter) GetRank() int {
 	c.mu.Lock()
-	var rank = c.rank
 	c.rank += 1
+	var rank = c.rank
 	c.mu.Unlock()
 	return rank
 }
