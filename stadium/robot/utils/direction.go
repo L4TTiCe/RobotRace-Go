@@ -59,16 +59,16 @@ func GetWest() *Direction {
 	return WEST
 }
 
-func (d *Direction) GetHorizontalModifier() int {
-	return d.horizontalModifier
+func (direction *Direction) GetHorizontalModifier() int {
+	return direction.horizontalModifier
 }
 
-func (d *Direction) GetVerticalModifier() int {
-	return d.verticalModifier
+func (direction *Direction) GetVerticalModifier() int {
+	return direction.verticalModifier
 }
 
-func (d *Direction) Complement() (*Direction, error) {
-	switch d {
+func (direction *Direction) Complement() (*Direction, error) {
+	switch direction {
 	case NORTH:
 		return SOUTH, nil
 	case SOUTH:
@@ -82,12 +82,12 @@ func (d *Direction) Complement() (*Direction, error) {
 	}
 }
 
-func (d *Direction) GetName() string {
-	return d.name
+func (direction *Direction) GetName() string {
+	return direction.name
 }
 
-func (d *Direction) GetRight() (*Direction, error) {
-	switch d {
+func (direction *Direction) GetRight() (*Direction, error) {
+	switch direction {
 	case NORTH:
 		return EAST, nil
 	case EAST:
@@ -101,8 +101,8 @@ func (d *Direction) GetRight() (*Direction, error) {
 	}
 }
 
-func (d *Direction) GetLeft() (*Direction, error) {
-	switch d {
+func (direction *Direction) GetLeft() (*Direction, error) {
+	switch direction {
 	case NORTH:
 		return WEST, nil
 	case WEST:
