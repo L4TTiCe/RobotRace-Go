@@ -25,7 +25,7 @@ type Racer struct {
 	raceHost *stadium.Stadium
 }
 
-func (robot Racer) String() string {
+func (robot *Racer) String() string {
 	return fmt.Sprintf("%s @ %s", robot.racerName, robot.position)
 }
 
@@ -66,8 +66,15 @@ func (robot *Racer) SetCommandString(command string) {
 	robot.commandString = command
 }
 
+func (robot *Racer) GetCommandString() string {
+	return robot.commandString
+}
+
+func (robot *Racer) GetDelay() time.Duration {
+	return robot.delay
+}
+
 func (robot *Racer) Start() {
-	log.Printf("[%s]\tCommand Strings : %s\n", robot, robot.commandString)
 	timestamp := time.Now()
 
 	for _, command := range robot.commandString {
