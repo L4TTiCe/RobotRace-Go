@@ -9,12 +9,6 @@ type Counter struct {
 	rank int
 }
 
-func (c *Counter) Add(x int) {
-	c.mu.Lock()
-	c.rank += x
-	c.mu.Unlock()
-}
-
 func (c *Counter) GetRank() int {
 	c.mu.Lock()
 	c.rank += 1

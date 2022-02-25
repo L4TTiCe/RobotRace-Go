@@ -2,12 +2,17 @@ package utils
 
 import (
 	"errors"
+	"fmt"
 )
 
 type Direction struct {
 	name               string
 	horizontalModifier int
 	verticalModifier   int
+}
+
+func (direction *Direction) String() string {
+	return fmt.Sprintf("%s", direction.name)
 }
 
 var NORTH *Direction

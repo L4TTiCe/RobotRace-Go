@@ -26,7 +26,7 @@ type Racer struct {
 }
 
 func (robot *Racer) String() string {
-	return fmt.Sprintf("%s @ %s", robot.racerName, robot.position)
+	return fmt.Sprintf("%s @ %s ^%s", robot.racerName, robot.position, robot.direction)
 }
 
 func (robot *Racer) RegisterHost(stadium *stadium.Stadium) {
@@ -90,7 +90,7 @@ func (robot *Racer) Start() {
 			log.Printf("[%s]\tTurned Left (%s -> %s)\t(%dms Since last action)\n",
 				robot,
 				tempDirection,
-				robot.direction.GetName(),
+				robot.direction,
 				time.Since(timestamp).Milliseconds())
 		case 'R':
 			tempDirection := robot.direction.GetName()
@@ -98,7 +98,7 @@ func (robot *Racer) Start() {
 			log.Printf("[%s]\tTurned Right (%s -> %s)\t(%dms Since last action)\n",
 				robot,
 				tempDirection,
-				robot.direction.GetName(),
+				robot.direction,
 				time.Since(timestamp).Milliseconds())
 		default:
 			log.Printf("[%s]\tUnknown Command: %c\t(%dms Since last action)\n",
