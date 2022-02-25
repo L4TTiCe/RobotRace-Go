@@ -3,6 +3,7 @@ package robot
 import (
 	"RobotRace-Go/stadium"
 	"RobotRace-Go/stadium/robot/utils"
+	"fmt"
 	"log"
 	"time"
 )
@@ -24,12 +25,16 @@ type Racer struct {
 	raceHost *stadium.Stadium
 }
 
+func (robot Racer) String() string {
+	return fmt.Sprintf("%s @ %s", robot.racerName, robot.position)
+}
+
 func (robot *Racer) RegisterHost(stadium *stadium.Stadium) {
 	robot.raceHost = stadium
 }
 
 func (robot *Racer) Announce() {
-	log.Printf("[%s] Finished with Rank %d\n", robot.racerName, robot.rank)
+	log.Printf("[%s]\tFinished with Rank %d\n", robot, robot.rank)
 }
 
 func (robot *Racer) move() {
@@ -62,24 +67,42 @@ func (robot *Racer) SetCommandString(command string) {
 }
 
 func (robot *Racer) Start() {
-	log.Printf("[%s] Command Strings is: %s\n", robot.racerName, robot.commandString)
+	log.Printf("[%s]\tCommand Strings : %s\n", robot, robot.commandString)
+	timestamp := time.Now()
+
 	for _, command := range robot.commandString {
 		switch command {
 		case 'F':
 			robot.move()
-			log.Printf("[%s] Moved Forward to: %s\n", robot.racerName, robot.position)
+			log.Printf("[%s]\tMoved Forward\t(%dms Since last action)\n",
+				robot,
+				time.Since(timestamp).Milliseconds())
 		case 'L':
+			tempDirection := robot.direction.GetName()
 			robot.turnLeft()
-			log.Printf("[%s] Turned Left towards: %s\n", robot.racerName, robot.direction.GetName())
+			log.Printf("[%s]\tTurned Left (%s -> %s)\t(%dms Since last action)\n",
+				robot,
+				tempDirection,
+				robot.direction.GetName(),
+				time.Since(timestamp).Milliseconds())
 		case 'R':
+			tempDirection := robot.direction.GetName()
 			robot.turnRight()
-			log.Printf("[%s] Turned Right towards: %s\n", robot.racerName, robot.direction.GetName())
+			log.Printf("[%s]\tTurned Right (%s -> %s)\t(%dms Since last action)\n",
+				robot,
+				tempDirection,
+				robot.direction.GetName(),
+				time.Since(timestamp).Milliseconds())
 		default:
-			log.Printf("[%s] Unknown Command: %c\n", robot.racerName, command)
+			log.Printf("[%s]\tUnknown Command: %c\t(%dms Since last action)\n",
+				robot,
+				command,
+				time.Since(timestamp).Milliseconds())
 		}
+		timestamp = time.Now()
 		time.Sleep(robot.delay)
 	}
-	log.Printf("[%s] Completed Run!\n", robot.racerName)
+	log.Printf("[%s]\tCompleted Run!\n", robot)
 	robot.rank = robot.raceHost.GetRank(robot)
 }
 
